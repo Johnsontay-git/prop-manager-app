@@ -3,7 +3,7 @@ import { mkdir } from 'fs/promises';
 
 await mkdir('public/icons', { recursive: true });
 
-// SVG: house + key on blue gradient, sized at 512x512
+// SVG: large house + key filling the icon, blue gradient background
 function makeSVG(size) {
   const s = size;
   return `<svg width="${s}" height="${s}" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -14,49 +14,45 @@ function makeSVG(size) {
     </linearGradient>
   </defs>
 
-  <!-- Background with rounded corners -->
+  <!-- Background -->
   <rect width="512" height="512" rx="112" ry="112" fill="url(#bg)"/>
 
-  <!-- Subtle inner glow -->
-  <rect width="512" height="512" rx="112" ry="112" fill="white" opacity="0.06"/>
+  <!-- Roof — wide, starts near top -->
+  <polygon points="256,42 470,218 42,218" fill="white" opacity="0.97"/>
 
-  <!-- House body -->
-  <!-- Roof (triangle) -->
-  <polygon points="256,100 420,240 92,240" fill="white" opacity="0.95"/>
-  <!-- Roof ridge line -->
-  <polygon points="256,108 412,240 100,240" fill="white" opacity="0.12"/>
+  <!-- Chimney -->
+  <rect x="340" y="60" width="38" height="80" rx="6" fill="white" opacity="0.85"/>
 
-  <!-- Main house body -->
-  <rect x="132" y="238" width="248" height="168" rx="6" fill="white" opacity="0.95"/>
+  <!-- House body — tall, reaches near bottom -->
+  <rect x="72" y="212" width="368" height="232" rx="8" fill="white" opacity="0.97"/>
 
-  <!-- Door -->
-  <rect x="216" y="314" width="80" height="92" rx="8" fill="#1d4ed8"/>
+  <!-- Door — centred, tall -->
+  <rect x="206" y="312" width="100" height="132" rx="10" fill="#1d4ed8"/>
   <!-- Door knob -->
-  <circle cx="288" cy="364" r="6" fill="white" opacity="0.7"/>
+  <circle cx="296" cy="382" r="8" fill="white" opacity="0.75"/>
 
   <!-- Left window -->
-  <rect x="150" y="270" width="52" height="44" rx="6" fill="#1d4ed8"/>
-  <line x1="176" y1="270" x2="176" y2="314" stroke="white" stroke-width="2.5" opacity="0.3"/>
-  <line x1="150" y1="292" x2="202" y2="292" stroke="white" stroke-width="2.5" opacity="0.3"/>
+  <rect x="96" y="252" width="84" height="68" rx="8" fill="#1d4ed8"/>
+  <line x1="138" y1="252" x2="138" y2="320" stroke="white" stroke-width="3" opacity="0.3"/>
+  <line x1="96"  y1="286" x2="180" y2="286" stroke="white" stroke-width="3" opacity="0.3"/>
 
   <!-- Right window -->
-  <rect x="310" y="270" width="52" height="44" rx="6" fill="#1d4ed8"/>
-  <line x1="336" y1="270" x2="336" y2="314" stroke="white" stroke-width="2.5" opacity="0.3"/>
-  <line x1="310" y1="292" x2="362" y2="292" stroke="white" stroke-width="2.5" opacity="0.3"/>
+  <rect x="332" y="252" width="84" height="68" rx="8" fill="#1d4ed8"/>
+  <line x1="374" y1="252" x2="374" y2="320" stroke="white" stroke-width="3" opacity="0.3"/>
+  <line x1="332" y1="286" x2="416" y2="286" stroke="white" stroke-width="3" opacity="0.3"/>
 
-  <!-- Key (bottom right, overlapping) -->
-  <g transform="translate(295, 340)">
-    <!-- Key circle head -->
-    <circle cx="60" cy="60" r="38" fill="#fbbf24" stroke="white" stroke-width="6"/>
-    <circle cx="60" cy="60" r="22" fill="#1d4ed8"/>
+  <!-- Key badge — bottom right corner -->
+  <circle cx="390" cy="390" r="88" fill="#1d4ed8"/>
+  <circle cx="390" cy="390" r="82" fill="#fbbf24"/>
 
-    <!-- Key shaft -->
-    <rect x="90" y="52" width="78" height="16" rx="8" fill="#fbbf24" stroke="white" stroke-width="4"/>
+  <!-- Key hole in circle -->
+  <circle cx="390" cy="390" r="28" fill="#1d4ed8"/>
 
-    <!-- Key teeth -->
-    <rect x="138" y="68" width="12" height="18" rx="4" fill="#fbbf24" stroke="white" stroke-width="3"/>
-    <rect x="158" y="68" width="10" height="14" rx="4" fill="#fbbf24" stroke="white" stroke-width="3"/>
-  </g>
+  <!-- Key shaft -->
+  <rect x="412" y="382" width="58" height="16" rx="8" fill="#1d4ed8"/>
+  <!-- Key teeth -->
+  <rect x="448" y="398" width="10" height="16" rx="4" fill="#1d4ed8"/>
+  <rect x="430" y="398" width="10" height="12" rx="4" fill="#1d4ed8"/>
 </svg>`;
 }
 
