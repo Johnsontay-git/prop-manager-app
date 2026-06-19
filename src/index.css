@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+* { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f0f2f5;
+  overscroll-behavior: none;
+  margin: 0;
+}
+
+#root { width: 100%; }
+
+@keyframes slideUp {
+  from { transform: translateY(60px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.sheet-enter { animation: slideUp 0.28s cubic-bezier(0.32,0.72,0,1) forwards; }
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter { animation: fadein 0.18s ease forwards; }
