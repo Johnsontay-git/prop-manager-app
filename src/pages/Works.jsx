@@ -83,7 +83,9 @@ export default function Works() {
     await delRecord('jobs', id); toast('Deleted'); load();
   }
 
-  const filtered = tab === 'all' ? jobs : jobs.filter(j => j.status === tab);
+  const filtered = (tab === 'all' ? jobs : jobs.filter(j => j.status === tab))
+    .slice()
+    .sort((a, b) => (a.job_type || '').localeCompare(b.job_type || '', undefined, { sensitivity: 'base' }));
   const totalCost = filtered.reduce((s,j) => s+Number(j.cost||0), 0);
 
   return (
@@ -129,12 +131,23 @@ export default function Works() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-bold text-gray-900 truncate">{j.job_type}</span>
-                    <span className="text-base font-bold text-gray-900 flex-shrink-0">{fmt(j.cost)}</span>
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${s.badge}`}>{STATUS_LABELS[j.status]||j.status}</span>
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">{j.property_name||'—'}{j.unit_no ? ' · Unit '+j.unit_no : ''}</div>
+
+                  {/* Contractor & Amount columns */}
+                  <div className="grid grid-cols-2 gap-2 mt-3">
+                    <div className="bg-black/[0.03] rounded-lg px-3 py-2">
+                      <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">Contractor / 师傅</div>
+                      <div className="text-sm font-semibold text-gray-800 truncate mt-0.5">{j.contractor || '—'}</div>
+                    </div>
+                    <div className="bg-black/[0.03] rounded-lg px-3 py-2">
+                      <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">Amount / 金额</div>
+                      <div className="text-sm font-bold text-gray-900 mt-0.5">{fmt(j.cost)}</div>
+                    </div>
+                  </div>
+
                   <div className="flex items-center gap-3 mt-2 flex-wrap">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${s.badge}`}>{STATUS_LABELS[j.status]||j.status}</span>
-                    {j.contractor && <span className="text-xs text-gray-400">by {j.contractor}</span>}
                     <span className="text-xs text-gray-400">{fmtDate(j.date)}</span>
                   </div>
                   {j.description && <div className="text-xs text-gray-500 mt-2 bg-black/[0.03] rounded-lg px-2 py-1.5">{j.description}</div>}
@@ -179,11 +192,11 @@ export default function Works() {
             {propUnits.map(u => <option key={u.id} value={u.id}>Unit {u.unit_no}</option>)}
           </Select>
         </Field>
-        <Field label="Contractor / Vendor">
-          <Input value={form.contractor} onChange={e=>setForm({...form,contractor:e.target.value})} placeholder="Contractor name" />
+        <Field label="Contractor / Vendor (承包商/师傅)">
+          <Input value={form.contractor} onChange={e=>setForm({...form,contractor:e.target.value})} placeholder="Contractor / 师傅姓名" />
         </Field>
         <Row>
-          <Field label="Cost (RM)"><Input type="number" value={form.cost} onChange={e=>setForm({...form,cost:e.target.value})} placeholder="0.00" step="0.01" /></Field>
+          <Field label="Cost (RM) / 金额"><Input type="number" value={form.cost} onChange={e=>setForm({...form,cost:e.target.value})} placeholder="0.00" step="0.01" /></Field>
           <Field label="Date"><Input type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})} /></Field>
         </Row>
         <Field label="Status">
